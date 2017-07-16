@@ -1,0 +1,36 @@
+{
+  "name": "tiy-week8-codesnippet",
+  "version": "1.0.0",
+  "description": "Make a fullstack code snippet storage/sharing site",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test mocha -b",
+    "start": "NODE_ENV=dev node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b-r-broge/tiy-week8-codesnippet.git"
+  },
+  "author": "Brad Broge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b-r-broge/tiy-week8-codesnippet/issues"
+  },
+  "homepage": "https://github.com/b-r-broge/tiy-week8-codesnippet#readme",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mocha": "^3.4.2",
+    "mongoose": "^4.11.3",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "supertest": "^3.0.0"
+  }
+}

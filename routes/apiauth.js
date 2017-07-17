@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const Users = require('../models/users');
+const Snippet = require('../models/snippet')
 
 const homepageRoute = require('./homepage')
+const newSnippet = require('./newSnippet')
 
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
@@ -60,11 +62,12 @@ router.post('/signup', function(req, res) {
   })
 })
 
-// Add in local strategies
-
-// authenticate before using the routes
+// authenticate before using the API routes
 router.use( passport.authenticate('basic', {
   session: false
 }), homepageRoute);
+router.use( passport.authenticate('basic', {
+  session: false
+}), newSnippet);
 
 module.exports = router;

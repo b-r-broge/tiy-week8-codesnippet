@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-const authRoute = require('./routes/auth');
+const authRoute = require('./routes/apiauth');
 
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.mongoUrl);

@@ -48,4 +48,20 @@ describe('POST /api/signup - add a user to the database', function() {
       done();
     })
   })
+  it('Should return that brad:test is an invalid user:pass', function(done) {
+    request(app).get('/api/check')
+    .auth("brad", "test")
+    .expect(401)
+    .end(done)
+  })
+  it('Should return that Reynard:reyRey is a valid user:pass', function(done) {
+    request(app).get('/api/check')
+      .auth("Reynard", "reyRey")
+      .expect(200)
+      .expect({
+        "success": true,
+        "username": "Reynard"
+      })
+      .end(done)
+  })
 })

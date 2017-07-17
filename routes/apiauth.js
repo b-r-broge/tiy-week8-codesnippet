@@ -66,7 +66,7 @@ router.post('/signup', function(req, res) {
 router.use( passport.authenticate('basic', {
   session: false
 }), homepageRoute);
-router.use( passport.authenticate('basic', {
+router.use('/snippet', passport.authenticate('basic', {
   session: false
 }), newSnippet);
 

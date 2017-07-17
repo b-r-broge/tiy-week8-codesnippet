@@ -19,7 +19,8 @@ const snippetSchema = new Schema({
   },
   _creator: {
     type: Schema.Types.ObjectId,
-    ref: User
+    ref: User,
+    required: true
   },
   tags: [String]
 })

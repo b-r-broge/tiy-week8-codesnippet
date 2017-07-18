@@ -19,7 +19,8 @@ router.post('/create', function(req, res) {
     // console.log('added snippet', snip);
     return res.json({
       "success": true,
-      "title": snip.title
+      "title": snip.title,
+      "id": String(snip._id).slice(-5)
     })
   }).catch(function (err) {
     console.log('error saving new snippet', err);

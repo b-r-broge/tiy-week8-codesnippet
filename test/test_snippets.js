@@ -5,6 +5,8 @@ const app = require('../app');
 const Users = require('../models/users')
 const Snippet = require('../models/snippet')
 
+var reyId, seyId, reySnipId, seySnipId
+
 describe('POST /api/snippet/ - add a snippet to the database', function() {
   before('reset the test users collection', function(done) {
     Users.remove({}).then(function() {done()})
@@ -30,7 +32,11 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
           }
         }
       }
-    ]).then(function() {done()})
+    ]).then(function(resp) {
+      reyId = String(resp.insertedIds['0']).slice(-5)
+      seyId = String(resp.insertedIds['1']).slice(-5)
+      done()
+    })
   });
   // Add tests here
   it('Should give an authorization error', function (done) {
@@ -59,9 +65,10 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     })
     .set('Accept', 'application/json')
     .expect(200)
-    .expect({
-      "success": true,
-      "title": "sample snippet"
+    .expect(function (res) {
+      assert.equal(res.body.success, true);
+      assert.equal(res.body.title, 'sample snippet');
+      reySnipId = res.body.id
     })
     .end(done)
   })
@@ -77,9 +84,10 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     })
     .set('Accept', 'application/json')
     .expect(200)
-    .expect({
-      "success": true,
-      "title": "Seymour's snippet"
+    .expect(function (res) {
+      assert.equal(res.body.success, true);
+      assert.equal(res.body.title, 'Seymour\'s snippet');
+      seySnipId = res.body.id
     })
     .end(done)
   })
@@ -92,7 +100,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
   })
   // Request all snippets that have been added
   it('Should respond with all of the snippets', function (done) {
-    request(app).get('/api/snippet')
+    request(app).get('/api/homepage')
     .auth("Reynard", "reyRey")
     .expect(200)
     .expect({
@@ -101,6 +109,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
         {
           "title": "sample snippet",
           "author": "Reynard",
+          "id": reySnipId,
           "snippet": "This is a sample snippet for the use of the purpose",
           "notes": "",
           "language": "english",
@@ -109,6 +118,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
         {
           "title": "Seymour's snippet",
           "author": "Seymour",
+          "id": seySnipId,
           "snippet": "Seymours snippet is the best snippet.\n It should be considered above all others",
           "notes": "very Seymour",
           "language": "puppy",

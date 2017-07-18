@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 const User = require('./users')
+// const userModel = mongoose.model('User').schema
 
 const snippetSchema = new Schema({
   title: {
@@ -19,7 +20,7 @@ const snippetSchema = new Schema({
   },
   _creator: {
     type: Schema.Types.ObjectId,
-    ref: User,
+    ref: 'User',
     required: true
   },
   tags: [String]

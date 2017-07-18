@@ -33,7 +33,21 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     ]).then(function() {done()})
   });
   // Add tests here
-  it('Should add a new code snippet to the database', function (done) {
+  it('Should give an authorization error', function (done) {
+    request(app).post('/api/snippet/create')
+    .auth("brad", "test")
+    .send({
+      "title": "test",
+      "snippet": "test test",
+      "notes": "",
+      "language": "english",
+      "tags": ["test"]
+    })
+    .set('Accept', 'application/json')
+    .expect(401)
+    .end(done)
+  })
+  it('Should add a new code snippet for Reynard to the database', function (done) {
     request(app).post('/api/snippet/create')
     .auth("Reynard", "reyRey")
     .send({
@@ -48,6 +62,59 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     .expect({
       "success": true,
       "title": "sample snippet"
+    })
+    .end(done)
+  })
+  it('Should add a new code snippet for Seymour to the database', function (done) {
+    request(app).post('/api/snippet/create')
+    .auth("Seymour", "smellMoo")
+    .send({
+      "title": "Seymour's snippet",
+      "snippet": "Seymours snippet is the best snippet.\n It should be considered above all others",
+      "notes": "very Seymour",
+      "language": "puppy",
+      "tags": ["test", "seymour"]
+    })
+    .set('Accept', 'application/json')
+    .expect(200)
+    .expect({
+      "success": true,
+      "title": "Seymour's snippet"
+    })
+    .end(done)
+  })
+  // verify both items are in the database
+  it('Should verify there are 2 users in the DB', function (done) {
+    Snippet.count({}).then(function(num) {
+      assert.equal(num, 2);
+      done();
+    })
+  })
+  // Request all snippets that have been added
+  it('Should respond with all of the snippets', function (done) {
+    request(app).get('/api/snippet')
+    .auth("Reynard", "reyRey")
+    .expect(200)
+    .expect({
+      "success": true,
+      "snippets": [
+        {
+          "title": "sample snippet",
+          "author": "Reynard",
+          "snippet": "This is a sample snippet for the use of the purpose",
+          "notes": "",
+          "language": "english",
+          "tags": ["sample", "test", "simple"]
+        },
+        {
+          "title": "Seymour's snippet",
+          "author": "Seymour",
+          "snippet": "Seymours snippet is the best snippet.\n It should be considered above all others",
+          "notes": "very Seymour",
+          "language": "puppy",
+          "tags": ["test", "seymour"]
+        }
+      ]
     })
     .end(done)
   })

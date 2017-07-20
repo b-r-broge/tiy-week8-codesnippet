@@ -20,7 +20,7 @@ router.post('/create', function(req, res) {
     return res.json({
       "success": true,
       "title": snip.title,
-      "id": String(snip._id).slice(-5)
+      "id": String(snip._id)
     })
   }).catch(function (err) {
     console.log('error saving new snippet', err);
@@ -32,8 +32,27 @@ router.post('/create', function(req, res) {
 })
 
 router.get('/:id', function (req, res) {
-  return res.json({
-    "success": false
+  Snippet.findOne({_id: req.params.id}).populate("_creator").then((snip) => {
+    // console.log(snip);
+    var outData = {
+      "id": snip._id.toString(),
+      "title": snip.title,
+      "author": snip._creator.username,
+      "snippet": snip.snippet,
+      "notes": snip.notes,
+      "language": snip.language,
+      "tags": snip.tags
+    };
+    return res.json({
+      "success": true,
+      "snippet": outData
+    });
+  }).catch((err) => {
+    console.log('error finding snippet', err);
+    return res.json({
+      "success": false,
+      "error": err
+    })
   })
 })
 

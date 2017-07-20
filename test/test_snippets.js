@@ -33,8 +33,8 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
         }
       }
     ]).then(function(resp) {
-      reyId = String(resp.insertedIds['0']).slice(-5)
-      seyId = String(resp.insertedIds['1']).slice(-5)
+      reyId = String(resp.insertedIds['0'])
+      seyId = String(resp.insertedIds['1'])
       done()
     })
   });
@@ -129,7 +129,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     .end(done)
   })
   it('Should respond with a specific snippet', function (done) {
-    request(app).get('/api/homepage/'+reySnipId)
+    request(app).get('/api/snippet/'+reySnipId)
     .auth("Reynard", "reyRey")
     .expect(200)
     .expect({

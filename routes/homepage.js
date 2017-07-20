@@ -26,7 +26,7 @@ router.get('/homepage', function (req, res) {
       snippetArray.push({
         "title": a.title,
         "author": a._creator.username,
-        "id": String(a._id).slice(-5),
+        "id": a._id.toString(),
         "snippet": a.snippet,
         "notes": a.notes,
         "language": a.language,

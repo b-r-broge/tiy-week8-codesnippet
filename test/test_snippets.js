@@ -5,7 +5,9 @@ const app = require('../app');
 const Users = require('../models/users')
 const Snippet = require('../models/snippet')
 
-var reyId, seyId, reySnipId, seySnipId
+const userData = require('./assets/usersdb')
+
+var reyId, seyId
 
 describe('POST /api/snippet/ - add a snippet to the database', function() {
   before('reset the test users collection', function(done) {
@@ -15,33 +17,27 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     Snippet.remove({}).then(function() {done()})
   });
   before('Add default users to users collection', function (done) {
-    Users.bulkWrite([
-      {
-        insertOne: {
-          document: {
-            "username": "Reynard",
-            "password": "$2a$08$tTpz/NtZnZkgIePuy.l84eoONPtdqcJ3CE1sNzF71LG/pS0D3QSDu"
+    Users.bulkWrite(
+      userData.users.map((x) => {
+        return {
+          insertOne: {
+            document: {
+              "username": x.username,
+              "password": x.password
+            }
           }
         }
-      },
-      {
-        insertOne: {
-          document: {
-            "username": "Seymour",
-            "password": "$2a$08$vy5U6HWoSEoaFysTWC4Gy.gHENQhHnPfZ7Mtgi61.0NPxEpeWxzni"
-          }
-        }
-      }
-    ]).then(function(resp) {
-      reyId = String(resp.insertedIds['0'])
-      seyId = String(resp.insertedIds['1'])
+      })
+    ).then(function(resp) {
+      reyId = String(resp.insertedIds['1'])
+      seyId = String(resp.insertedIds['2'])
       done()
     })
   });
   // Add tests here
   it('Should give an authorization error', function (done) {
     request(app).post('/api/snippet/create')
-    .auth("brad", "test")
+    .auth("brad", "brad")
     .send({
       "title": "test",
       "snippet": "test test",
@@ -68,7 +64,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     .expect(function (res) {
       assert.equal(res.body.success, true);
       assert.equal(res.body.title, 'sample snippet');
-      reySnipId = res.body.id
+      reyId = res.body.id
     })
     .end(done)
   })
@@ -87,7 +83,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     .expect(function (res) {
       assert.equal(res.body.success, true);
       assert.equal(res.body.title, 'Seymour\'s snippet');
-      seySnipId = res.body.id
+      seyId = res.body.id
     })
     .end(done)
   })
@@ -109,7 +105,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
         {
           "title": "sample snippet",
           "author": "Reynard",
-          "id": reySnipId,
+          "id": reyId,
           "snippet": "This is a sample snippet for the use of the purpose",
           "notes": "",
           "language": "english",
@@ -118,7 +114,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
         {
           "title": "Seymour's snippet",
           "author": "Seymour",
-          "id": seySnipId,
+          "id": seyId,
           "snippet": "Seymours snippet is the best snippet.\n It should be considered above all others",
           "notes": "very Seymour",
           "language": "puppy",
@@ -129,7 +125,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     .end(done)
   })
   it('Should respond with a specific snippet', function (done) {
-    request(app).get('/api/snippet/'+reySnipId)
+    request(app).get('/api/snippet/'+reyId)
     .auth("Reynard", "reyRey")
     .expect(200)
     .expect({
@@ -137,7 +133,7 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
       "snippet":  {
         "title": "sample snippet",
         "author": "Reynard",
-        "id": reySnipId,
+        "id": reyId,
         "snippet": "This is a sample snippet for the use of the purpose",
         "notes": "",
         "language": "english",

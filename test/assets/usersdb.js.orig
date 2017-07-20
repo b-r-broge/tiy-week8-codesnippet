@@ -1,0 +1,34 @@
+module.exports = {
+	users: [{
+	"_id": {
+		"$oid": "59700fc56635d53684ca22b1"
+	},
+	"username": "brad",
+	"password": "$2a$08$NpGGwR2O/r8nlYNHx2g7te5lfjfZuOfM37z1X8Q5SwavnxyC/dCMe",
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "59700fd06635d53684ca22b2"
+	},
+	"username": "Reynard",
+	"password": "$2a$08$dCGjJFi9c7HGZqsxG.APvODgwAJfW6kaMsW/C0juRccgaQTCEiLia",
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "59700fdb6635d53684ca22b3"
+	},
+	"username": "Seymour",
+	"password": "$2a$08$vRM5FLXGzlbMn1rgumH3dOFHY6tcC.o.7Cnz8bw04g0cqqSNGwUue",
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "59700fea6635d53684ca22b4"
+	},
+	"username": "test",
+	"password": "$2a$08$vevX9oZIH8t/JOmbngNEKO7QPtYLn119j2bhHum0mue8lOTF2cKpu",
+	"__v": 0
+}]
+}

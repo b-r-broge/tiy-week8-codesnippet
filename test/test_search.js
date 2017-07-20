@@ -92,7 +92,9 @@ describe('GET /api/username/ - show all snippets from a particular user', functi
     .expect(200)
     .expect(function (res) {
       assert.equal(res.body.success, true);
-      // assert.equal(res.body.title, 'Seymour\'s snippet');
+      assert.equal(res.body.snippets[0].title, 'Brad\'s Snippet');
+      assert.equal(res.body.snippets[0].snippet, 'const assert = require(\'assert\');\nconst request = require(\'supertest\');\nconst app = require(\'../app\');\nconst Users = require(\'../models/users\')\nconst Snippet = require(\'../models/snippet\')')
+      assert.equal(res.body.snippets[0].notes, 'import statements')
       // seyId = res.body.id
     })
     .end(done)

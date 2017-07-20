@@ -5,7 +5,7 @@ const Users = require('../models/users');
 const Snippet = require('../models/snippet')
 
 const homepageRoute = require('./homepage')
-const newSnippet = require('./newSnippet')
+const snippet = require('./snippet')
 
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
@@ -68,6 +68,6 @@ router.use( passport.authenticate('basic', {
 }), homepageRoute);
 router.use('/snippet', passport.authenticate('basic', {
   session: false
-}), newSnippet);
+}), snippet);
 
 module.exports = router;

@@ -31,4 +31,10 @@ router.post('/create', function(req, res) {
   })
 })
 
+router.get('/:id', function (req, res) {
+  return res.json({
+    "success": false
+  })
+})
+
 module.exports = router;

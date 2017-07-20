@@ -128,4 +128,21 @@ describe('POST /api/snippet/ - add a snippet to the database', function() {
     })
     .end(done)
   })
+  it('Should respond with a specific snippet', function (done) {
+    request(app).get('/api/homepage/'+reySnipId)
+    .auth("Reynard", "reyRey")
+    .expect(200)
+    .expect({
+      "success": true,
+      "snippet":  {
+        "title": "sample snippet",
+        "author": "Reynard",
+        "id": reySnipId,
+        "snippet": "This is a sample snippet for the use of the purpose",
+        "notes": "",
+        "language": "english",
+        "tags": ["sample", "test", "simple"]
+      }})
+    .end(done)
+  })
 })

@@ -12,7 +12,7 @@ describe('POST /api/signup - add a user to the database', function() {
 
     setTimeout(function() {
       return done();
-    }, 500);
+    }, 1000);
   })
 
   it('Should add user "Reynard" to the user collection', function(done) {
